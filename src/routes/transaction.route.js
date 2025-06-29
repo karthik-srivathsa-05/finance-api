@@ -9,6 +9,10 @@ router.use(authMiddleware);
 //GET /api/transactions
 router.get('/', transactionController.getTransactions);
 
+//GET /api/transactions/export
+//Export transactions to CSV
+router.get('/export', transactionController.exportTransactions);
+
 //POST /api/transactions
 router.post(
     '/',

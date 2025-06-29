@@ -15,9 +15,10 @@ app.use(express.json());
 app.use(cors()); 
 app.use(helmet()); 
 
-//Define Routes
+//defining routes
 app.use('/api/auth', require('./src/routes/auth.routes'));
 app.use('/api/transactions', require('./src/routes/transaction.routes'));
+app.use('/api/user', require('./src/routes/user.routes.js')); 
 
 app.get('/', (req, res) => {
     res.send('API is running...');

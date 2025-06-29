@@ -1,5 +1,6 @@
 const Transaction = require('../models/Transaction.model');
 const { validationResult } = require('express-validator');
+const { Parser } = require('json2csv');
 
 //GET /api/transactions
 //Get all transactions for a user
@@ -90,6 +91,66 @@ exports.deleteTransaction = async (req, res) => {
         await Transaction.findByIdAndDelete(req.params.id);
 
         res.json({ msg: 'Transaction removed' });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+};
+
+//GET /api/transactions
+//Get all transactions for a user, with optional filtering
+// @access  Private
+exports.getTransactions = async (req, res) => {
+    try {
+        //base query to find transactions
+        const query = { userId: req.user.id };
+
+        const { startDate, endDate, category, description, type } = req.query;
+
+        //building filter object
+        if (startDate && endDate) {
+            query.date = { $gte: new Date(startDate), $lte: new Date(endDate) };
+        }
+        if (category) {
+            query.category = category;
+        }
+        if (description) {
+            query.description = { $regex: description, $options: 'i' };
+        }
+        if (type) {
+            query.type = type;
+        }
+
+        const transactions = await Transaction.find(query).sort({ date: -1 });
+        res.json(transactions);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+};
+
+//GET /api/transactions/export
+//Export user's transactions to a CSV file
+// @access  Private
+exports.exportTransactions = async (req, res) => {
+    try {
+        const transactions = await Transaction.find({ userId: req.user.id }).sort({ date: -1 });
+
+        if (transactions.length === 0) {
+            return res.status(404).json({ msg: 'No transactions found to export.' });
+        }
+
+        //define the fields for CSV file
+        const fields = ['date', 'description', 'category', 'type', 'amount'];
+        const opts = { fields };
+
+        const parser = new Parser(opts);
+        const csv = parser.parse(transactions);
+
+        res.header('Content-Type', 'text/csv');
+        res.attachment('transactions.csv');
+        res.status(200).send(csv);
+
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');

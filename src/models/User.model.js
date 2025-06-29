@@ -5,6 +5,11 @@ const UserSchema = new mongoose.Schema({
     username: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     passwordHash: { type: String, required: true },
+    theme: {
+        type: String,
+        enum: ['light', 'dark'],
+        default: 'light' //default light mode for users
+    },
     createdAt: { type: Date, default: Date.now }
 });
 
