@@ -41,7 +41,7 @@ To get a local copy up and running, follow these simple steps.
 
 ### Installation
 1.  **Clone the repository:**
-    git clone <your-repository-link>
+    git clone (https://github.com/karthik-srivathsa-05/finance-api)
 
 2.  **Navigate to the project directory:**
     cd finance-api
