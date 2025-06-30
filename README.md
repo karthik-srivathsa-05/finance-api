@@ -41,13 +41,19 @@ To get a local copy up and running, follow these simple steps.
 
 ### Installation
 1.  **Clone the repository:**
+    ```sh
     git clone (https://github.com/karthik-srivathsa-05/finance-api)
+    ```
 
 2.  **Navigate to the project directory:**
+    ```sh    
     cd finance-api
+    ```
 
 3.  **Install NPM packages:**
+    ```sh
     npm install
+    ```
 
 4.  **Set up environment variables:**
     - Create a file named `.env` in the root of the project.
@@ -59,7 +65,7 @@ To get a local copy up and running, follow these simple steps.
     JWT_SECRET=your_super_secret_key
 
 5.  **Run the server:**
-     ```sh
+    ```sh
     npm run dev
     ```
 
