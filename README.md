@@ -59,6 +59,8 @@ To get a local copy up and running, follow these simple steps.
     JWT_SECRET=your_super_secret_key
 
 5.  **Run the server:**
+     ```sh
     npm run dev
+    ```
 
 The server will start on `http://localhost:5001` (or whatever port is specified).
